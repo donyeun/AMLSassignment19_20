@@ -7,18 +7,19 @@ task_a:
     y_header_name: gender
     cropped_dataset_dir: Datasets/processed/celeba_cropped_face/
     model_path: models/result/a1_dec16_v1.pkl
-    log_path: logs/task_a1_log.txt
+    log_path: A1/log.txt
   a2:
     y_header_name: smiling
     cropped_dataset_dir: Datasets/processed/celeba_cropped_mouth/
-    model_path: models/a2_dec16_v3.pkl
-    log_path: logs/task_a2_log.txt
+    model_path: models/a2_dec17_v1.pkl
+    log_path: A2/log.txt
     lbp:
       n_points: 8
       radius: 1
       method: default
-    svm_param_candidates:
-      C: [1, 10, 100]
+    svm:
+      param_candidates:
+        C: [1, 10, 100, 1000]
 
 task_b:
   general:
@@ -27,11 +28,11 @@ task_b:
     x_header_name: file_name
   b1:
     y_header_name: face_shape
-    log_path: logs/task_b1_log.txt
+    log_path: A3/log.txt
   b2:
     y_header_name: eye_color
     cropped_dataset_dir: Datasets/processed/cartoon_set_cropped_right_eye_haarcascade_eye_13_9/
-    log_path: logs/task_b2_log.txt
+    log_path: A4/log.txt
 
 shape_predictor:
   model_dir: models/helper/shape_predictor_68_face_landmarks.dat
@@ -44,5 +45,7 @@ shape_predictor:
 
 train:
   test_proportion: 0.2
-  k_crossval: 2
   random_state: 18154195
+  max_iter: 10000000
+  tol: 0.00001
+  k_crossval: 2

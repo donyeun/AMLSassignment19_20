@@ -6,7 +6,6 @@ import numpy as np
 import pandas as pd
 from PIL import Image
 from skimage import color, feature, io
-from sklearn.metrics import accuracy_score
 from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
@@ -59,7 +58,7 @@ class DataProcessor:
                 Y.append(row[y_header_name])
         return X, Y
 
-    def hog_face_detector(self, nput_dir, img_filename, face_detector, output_dir):
+    def hog_face_detector(self, input_dir, img_filename, face_detector, output_dir):
         """Detect face using HOG
         """
         img_filepath = os.path.join(input_dir, img_filename)
@@ -164,36 +163,68 @@ class DataProcessor:
             cv2.imwrite(os.path.join(output_dir, img_filename), cropped_img)
 
 class Classifier:
-    def LinearSVM(self, X, Y, model_filepath, cfg):
+    def LinearSVM(self, X, Y, task_cfg, train_cfg):
         # SVM classifier with hyperparam tuning
         try:
             clf = pickle.load(
-                open(model_filepath, "rb")
+                open(task_cfg['model_path'], "rb")
             )
             print("local model is found and being used instead of retraining the model")
         except (OSError, IOError):
             print("training SVM (and save the resulted model afterwards to a local pickle file)")
             # Do grid search and k-cross validation to SVM Classifier
-            clf = make_pipeline(
+            pipeline = make_pipeline(
                 StandardScaler(),
-                GridSearchCV(
-                    LinearSVC(
-                        random_state = cfg['train']['random_state'],
-                        tol = 1e-5,
-                        max_iter = 1000000,
-                    ),
-                    cfg['task_a']['a2']['svm_param_candidates'],
-                    cv = cfg['train']['k_crossval'],
-                    iid = False,
-                    n_jobs = -1,
-                    verbose = 4,
+                LinearSVC(
+                    random_state = train_cfg['random_state'],
+                    tol = train_cfg['tol'],
+                    max_iter = train_cfg['max_iter'],
                 ),
             )
+            param_candidates = {
+                'linearsvc__C' : task_cfg['svm']['param_candidates']['C'],
+            }
 
+            clf = GridSearchCV(
+                pipeline,
+                param_candidates,
+                cv = train_cfg['k_crossval'],
+                return_train_score = True,
+                n_jobs = -1,
+                verbose = 51,
+                )
+
+
+            # clf = make_pipeline(
+            #     StandardScaler(),
+            #     GridSearchCV(
+            #         LinearSVC(
+            #             random_state = train_cfg['random_state'],
+            #             tol = train_cfg['tol'],
+            #             max_iter = train_cfg['max_iter'],
+            #         ),
+            #         task_cfg['svm']['param_candidates'],
+            #         cv = train_cfg['k_crossval'],
+            #         refit = True
+            #         # iid = False,
+            #         n_jobs = -1,
+            #         verbose = 51,
+            #     ),
+            # )
             clf.fit(X, Y)
+
             # save all the models resulted to a local pickle
             pickle.dump(
                 clf,
-                open(model_filepath, "wb")
+                open(task_cfg['model_path'], "wb")
             )
+
+        print(clf)
+        print("Best Estimator: \n{}\n".format(clf.best_estimator_))
+        print("Best Parameters: \n{}\n".format(clf.best_params_))
+        print("Best Test Score: \n{}\n".format(clf.best_score_))
+        print("Best Training Score: \n{}\n".format(clf.cv_results_['mean_train_score'][clf.best_index_]))
+        print("All Training Scores: \n{}\n".format(clf.cv_results_['mean_train_score']))
+        print("All Test Scores: \n{}\n".format(clf.cv_results_['mean_test_score']))
+
         return clf
