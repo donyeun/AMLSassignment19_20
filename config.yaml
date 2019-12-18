@@ -6,12 +6,19 @@ task_a:
   a1:
     y_header_name: gender
     cropped_dataset_dir: Datasets/processed/celeba_cropped_face/
-    model_path: models/result/a1_dec16_v1.pkl
+    model_path: models/result/a1.pkl
     log_path: A1/log.txt
+    lbp:
+      n_points: 8
+      radius: 1
+      method: default
+    svm:
+      param_candidates:
+        C: [1, 10, 100, 1000]    
   a2:
     y_header_name: smiling
     cropped_dataset_dir: Datasets/processed/celeba_cropped_mouth/
-    model_path: models/a2_dec17_v1.pkl
+    model_path: models/result/a2.pkl
     log_path: A2/log.txt
     lbp:
       n_points: 8
@@ -28,11 +35,21 @@ task_b:
     x_header_name: file_name
   b1:
     y_header_name: face_shape
-    log_path: A3/log.txt
+    cropped_dataset_dir: Datasets/processed/cartoon_set_cropped_face_shape/
+    log_path: B1/log.txt
+    model_path: models/result/b1.pkl
+    svm:
+      param_candidates:
+        C: [1, 10, 100, 1000]
   b2:
     y_header_name: eye_color
-    cropped_dataset_dir: Datasets/processed/cartoon_set_cropped_right_eye_haarcascade_eye_13_9/
-    log_path: A4/log.txt
+    cropped_dataset_dir: Datasets/processed/cartoon_set_cropped_eye/
+    log_path: B2/log.txt
+    model_path: models/result/b2.pkl
+    haar_cascade_path: models/helper/haarcascades/haarcascade_eye.xml
+    svm:
+      param_candidates:
+        C: [1, 10, 100, 1000]
 
 shape_predictor:
   model_dir: models/helper/shape_predictor_68_face_landmarks.dat

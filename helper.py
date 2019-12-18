@@ -13,7 +13,6 @@ from sklearn.svm import SVC, LinearSVC
 from tqdm import tqdm
 import os
 import cv2
-
 from imutils import face_utils
 
 
@@ -73,6 +72,16 @@ class DataProcessor:
             ]
             cv2.imwrite(os.path.join(output_dir, img_filename), cropped_img)
 
+    def flatten_imgs(self, input_dir, X):
+        """Take all the images within input_dir and flatten it
+        """
+        flattened_X = []
+        for x in X:
+            img = io.imread(os.path.join(input_dir, x))
+            flattenned_img = img.flatten()
+            flattened_X.append(flattenned_img)
+        return flattened_X
+
     def hog_subregion_detector(self, input_dir, img_filename, face_detector, shape_predictor, shape_point_start, shape_point_end, output_dir):
         """Detect facial features using HOG
         """  
@@ -114,6 +123,16 @@ class DataProcessor:
                 cropped_dataset_dir
             )
 
+    def crop_face_from_dataset(self, filenames, dataset_dir, cropped_dataset_dir):
+        face_detector = dlib.get_frontal_face_detector()
+        for filename in tqdm(filenames):
+            self.hog_face_detector(
+                dataset_dir,
+                filename,
+                face_detector,
+                cropped_dataset_dir
+            )
+
     def raw_imgs_to_lbp_hists(self, image_dir, image_filenames, lbp_params):
         """Extract LBP histograms from raw images 
         """
@@ -145,22 +164,33 @@ class DataProcessor:
             hists.append(hist)
         return hists
 
-    def haar_cascade_object_cropping(self, input_dir, img_filename, haar_cascade_filepath, scale_factor, min_neighbors, output_dir):
-        """Detect object that matters using Haar Cascade, crop the image, then save the cropped image to a local folder
+    def haar_cascade_cropping(self, input_dir, img_filename, haar_cascade_filepath, scale_factor, min_neighbors, output_dir):
+        """Detect object that matters using Haar Cascade, crop the image,
+           then save the cropped image to a local folder
         """
         img_filepath = os.path.join(input_dir, img_filename)
-        right_eye_cascade = cv2.CascadeClassifier(haar_cascade_filepath)
+        haar_cascade = cv2.CascadeClassifier(haar_cascade_filepath)
         img = cv2.imread(img_filepath)
     #     $$$# https://stackoverflow.com/questions/20801015/recommended-values-for-opencv-detectmultiscale-parameters
-        obj = right_eye_cascade.detectMultiScale(img, scale_factor, min_neighbors)
+        obj = haar_cascade.detectMultiScale(img, scale_factor, min_neighbors)
         # reduce_px = 10
         for (x, y, w, h) in obj:
-            # cropped_img = img[y:y+h, x:x+w]
             cropped_img = img[y+int(h/3):y+h-int(h/3), x+int(w/3):x+w-int(w/3)]
-            # cropped_img = img[int(y/2):int((y+h)/2), int(x/2):int((x+w)/2)]
             cropped_img = cv2.resize(cropped_img, dsize=(25, 25))
-    #         cropped_img = cropped_img.resize((42,26), Image.ANTIALIAS)
             cv2.imwrite(os.path.join(output_dir, img_filename), cropped_img)
+
+    def crop_subregion_from_dataset_with_haar(self, filenames, dataset_dir, task_cfg, cropped_dataset_dir):
+        # face_detector = dlib.get_frontal_face_detector()
+        # shape_predictor = dlib.shape_predictor(shape_predictor_dir)
+        for filename in tqdm(filenames):
+            self.haar_cascade_cropping(
+                dataset_dir,
+                filename,
+                task_cfg['haar_cascade_path'],
+                1.3,
+                3,
+                cropped_dataset_dir
+            )
 
 class Classifier:
     def LinearSVM(self, X, Y, task_cfg, train_cfg):

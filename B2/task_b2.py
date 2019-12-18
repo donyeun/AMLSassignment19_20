@@ -3,7 +3,7 @@ import os
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
-class TaskA2:
+class TaskB2:
     def __init__(self, configurationYamlObject, dataProcessorObject, classifierObject):
         self.cfg = configurationYamlObject
         self.dp = dataProcessorObject
@@ -12,10 +12,10 @@ class TaskA2:
     def feature_extraction(self):
         """This feature extraction function has several steps:
            1. load the X (image filenames) and Y (class label),
-           2. crop the region of interest (mouth in this case) from the image,
+           2. crop the region of interest (eye in this case) from the image,
            3. determine the final X and Y (because some images will be lost from step #2
               due to failure in detecting area of interest), and
-           4. execute the feature extraction: raw image -> greyscale -> LBP -> histogram
+           4. open the image and flatten
         
            Return:
             X_final: the LBP histogram of X train
@@ -26,21 +26,20 @@ class TaskA2:
         # load the X and Y label from CSV
         print('Load the X and Y label from CSV')
         X, Y = self.dp.determine_X_and_Y_set_from_label_file(
-            self.cfg['task_a']['general']['label_csv_path'],
-            self.cfg['task_a']['general']['x_header_name'],
-            self.cfg['task_a']['a2']['y_header_name']
+            self.cfg['task_b']['general']['label_csv_path'],
+            self.cfg['task_b']['general']['x_header_name'],
+            self.cfg['task_b']['b2']['y_header_name']
         )
 
-        # crop the mouth region from the image.
+        # crop the eye region from the image.
         # the region of interest within some images might not be detected,
         # so the cropped images dataset might be smaller in quantity than the original dataset
-        print('Crop the mouth region from the image')
-        cropped_dataset_dir = self.cfg['task_a']['a2']['cropped_dataset_dir']
-        self.dp.crop_subregion_from_dataset(
+        print('Crop the eye region from the image')
+        cropped_dataset_dir = self.cfg['task_b']['b2']['cropped_dataset_dir']
+        self.dp.crop_subregion_from_dataset_with_haar(
             X,
-            self.cfg['task_a']['general']['dataset_dir'],
-            self.cfg['shape_predictor']['model_dir'],
-            self.cfg['shape_predictor']['mouth'],
+            self.cfg['task_b']['general']['dataset_dir'],
+            self.cfg['task_b']['b2'],
             cropped_dataset_dir
         )
 
@@ -54,12 +53,11 @@ class TaskA2:
                 row_num = X.index(ori_img_filename)
                 Y_final.append(Y[row_num])
 
-        # feature engineering (raw image -> greyscale -> LBP -> histogram)
-        print("Feature Engineering (raw image->greyscale->LBP->histogram)")
-        X_final = self.dp.raw_imgs_to_lbp_hists(
+        # open the image and flatten it
+        print("Open the image and flatten it")
+        X_final = self.dp.flatten_imgs(
             cropped_dataset_dir,
             X_final,
-            self.cfg['task_a']['a2']['lbp'],
         )
         return X_final, Y_final
 
@@ -97,7 +95,7 @@ class TaskA2:
         clf = self.cl.LinearSVM(
             X_train,
             Y_train,
-            self.cfg['task_a']['a2'],
+            self.cfg['task_b']['b2'],
             self.cfg['train'],
         )
 

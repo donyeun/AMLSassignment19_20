@@ -3,24 +3,24 @@ import os
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
-class TaskA2:
+class TaskA1:
     def __init__(self, configurationYamlObject, dataProcessorObject, classifierObject):
         self.cfg = configurationYamlObject
         self.dp = dataProcessorObject
         self.cl = classifierObject
 
     def feature_extraction(self):
-        """This feature extraction function has several steps:
-           1. load the X (image filenames) and Y (class label),
-           2. crop the region of interest (mouth in this case) from the image,
-           3. determine the final X and Y (because some images will be lost from step #2
-              due to failure in detecting area of interest), and
-           4. execute the feature extraction: raw image -> greyscale -> LBP -> histogram
+        # """This feature extraction function has several steps:
+        #    1. load the X (image filenames) and Y (class label),
+        #    2. crop the region of interest (face in this case) from the image,
+        #    3. determine the final X and Y (because some images will be lost from step #2
+        #       due to failure in detecting area of interest), and
+        #    4. execute the feature extraction: raw image -> greyscale -> LBP -> histogram
         
-           Return:
-            X_final: the LBP histogram of X train
-            Y_final: the list of Y (class label) after feature extraction process
-        """
+        #    Return:
+        #     X_final: the LBP histogram of X train
+        #     Y_final: the list of Y (class label) after feature extraction process
+        # """
         print('Feature Engineering')
 
         # load the X and Y label from CSV
@@ -28,19 +28,17 @@ class TaskA2:
         X, Y = self.dp.determine_X_and_Y_set_from_label_file(
             self.cfg['task_a']['general']['label_csv_path'],
             self.cfg['task_a']['general']['x_header_name'],
-            self.cfg['task_a']['a2']['y_header_name']
+            self.cfg['task_a']['a1']['y_header_name']
         )
 
-        # crop the mouth region from the image.
+        # crop the face region from the image.
         # the region of interest within some images might not be detected,
         # so the cropped images dataset might be smaller in quantity than the original dataset
-        print('Crop the mouth region from the image')
-        cropped_dataset_dir = self.cfg['task_a']['a2']['cropped_dataset_dir']
-        self.dp.crop_subregion_from_dataset(
+        print('Crop the face region from the image')
+        cropped_dataset_dir = self.cfg['task_a']['a1']['cropped_dataset_dir']
+        self.dp.crop_face_from_dataset(
             X,
             self.cfg['task_a']['general']['dataset_dir'],
-            self.cfg['shape_predictor']['model_dir'],
-            self.cfg['shape_predictor']['mouth'],
             cropped_dataset_dir
         )
 
@@ -59,7 +57,7 @@ class TaskA2:
         X_final = self.dp.raw_imgs_to_lbp_hists(
             cropped_dataset_dir,
             X_final,
-            self.cfg['task_a']['a2']['lbp'],
+            self.cfg['task_a']['a1']['lbp'],
         )
         return X_final, Y_final
 
@@ -97,7 +95,7 @@ class TaskA2:
         clf = self.cl.LinearSVM(
             X_train,
             Y_train,
-            self.cfg['task_a']['a2'],
+            self.cfg['task_a']['a1'],
             self.cfg['train'],
         )
 

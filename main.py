@@ -1,12 +1,15 @@
 import os
+import sys
 
+from skimage import io
 from sklearn.metrics import accuracy_score
 from tqdm import tqdm
-from skimage import io
+
 import yaml
-from helper import Classifier, DataAnalyst, DataProcessor
-import sys
+from A1.task_a1 import TaskA1
 from A2.task_a2 import TaskA2
+from B2.task_b2 import TaskB2
+from helper import Classifier, DataAnalyst, DataProcessor
 
 cfg = yaml.safe_load(open("config.yaml"))
 da = DataAnalyst()
@@ -23,19 +26,47 @@ cl = Classifier()
 # acc_A1_test = model_A1.test(args...)   # Test model based on the test set.
 # Clean up memory/GPU etc...             # Some code to free memory if necessary.
 
-
 # # ======================================================================================================================
-# Task A2
-sys.stdout = open(cfg['task_a']['a2']['log_path'],"w") # for logging purposes
+# # Task A1
+# sys.stdout = open(cfg['task_a']['a1']['log_path'],"w") # for logging purposes
 
-a2 = TaskA2(cfg, dp, cl)
-X, Y = a2.feature_extraction()
-X_train, X_test, Y_train, Y_test = a2.train_test_split(X, Y)
-clf, acc_a2_train, acc_a2_val = a2.train(X_train, Y_train)
-acc_a2_test = a2.test(X_test, Y_test, clf)
-print(acc_a2_test)
+# a1 = TaskA1(cfg, dp, cl)
+# X, Y = a1.feature_extraction()
+# X_train, X_test, Y_train, Y_test = a1.train_test_split(X, Y)
+# clf, acc_a1_train, acc_a2_val = a1.train(X_train, Y_train)
+# acc_a1_test = a1.test(X_test, Y_test, clf)
+# print(acc_a1_test)
+
+# sys.stdout.close()
+# # ======================================================================================================================
+
+# ======================================================================================================================
+# Task A2
+# sys.stdout = open(cfg['task_a']['a2']['log_path'],"w") # for logging purposes
+
+# a2 = TaskA2(cfg, dp, cl)
+# X, Y = a2.feature_extraction()
+# X_train, X_test, Y_train, Y_test = a2.train_test_split(X, Y)
+# clf, acc_a2_train, acc_a2_val = a2.train(X_train, Y_train)
+# acc_a2_test = a2.test(X_test, Y_test, clf)
+# print(acc_a2_test)
+
+# sys.stdout.close()
+# ======================================================================================================================
+
+# ======================================================================================================================
+# Task B2
+sys.stdout = open(cfg['task_b']['b2']['log_path'],"w") # for logging purposes
+
+b2 = TaskB2(cfg, dp, cl)
+X, Y = b2.feature_extraction()
+X_train, X_test, Y_train, Y_test = b2.train_test_split(X, Y)
+clf, acc_b2_train, acc_b2_val = b2.train(X_train, Y_train)
+acc_b2_test = b2.test(X_test, Y_test, clf)
+print(acc_b2_test)
 
 sys.stdout.close()
+# ======================================================================================================================
 
 # # load the X and Y
 # X, Y = dp.determine_X_and_Y_set_from_label_file(
