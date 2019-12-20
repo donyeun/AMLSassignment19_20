@@ -13,7 +13,7 @@ task_a:
       radius: 1
       method: default
     svm:
-      param_candidates:
+      param_candidates:  
         C: [1, 10, 100, 1000]    
   a2:
     y_header_name: smiling
@@ -65,4 +65,4 @@ train:
   random_state: 18154195
   max_iter: 10000000
   tol: 0.00001
-  k_crossval: 2
+  k_crossval: 3
