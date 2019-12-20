@@ -6,12 +6,67 @@ Feature Engineering (raw image->greyscale->LBP->histogram)
 Training and Testing Dataset Splitting
 Training with Linear SVM Classifier
 training SVM (and save the resulted model afterwards to a local pickle file)
-Fitting 2 folds for each of 4 candidates, totalling 8 fits
+Fitting 3 folds for each of 4 candidates, totalling 12 fits
 [Parallel(n_jobs=-1)]: Using backend LokyBackend with 4 concurrent workers.
-[Parallel(n_jobs=-1)]: Done   1 tasks      | elapsed:  1.6min
-[Parallel(n_jobs=-1)]: Done   2 out of   8 | elapsed:  1.9min remaining:  5.8min
-[Parallel(n_jobs=-1)]: Done   3 out of   8 | elapsed: 15.0min remaining: 25.0min
-[Parallel(n_jobs=-1)]: Done   4 out of   8 | elapsed: 15.5min remaining: 15.5min
-[Parallel(n_jobs=-1)]: Done   5 out of   8 | elapsed: 907.1min remaining: 544.3min
-[Parallel(n_jobs=-1)]: Done   6 out of   8 | elapsed: 907.1min remaining: 302.4min
-[Parallel(n_jobs=-1)]: Done   8 out of   8 | elapsed: 907.1min remaining:    0.0s
+[Parallel(n_jobs=-1)]: Done   1 tasks      | elapsed:  2.5min
+[Parallel(n_jobs=-1)]: Done   2 tasks      | elapsed:  2.7min
+[Parallel(n_jobs=-1)]: Done   3 tasks      | elapsed:  2.8min
+[Parallel(n_jobs=-1)]: Done   4 tasks      | elapsed: 23.5min
+[Parallel(n_jobs=-1)]: Done   5 tasks      | elapsed: 24.5min
+[Parallel(n_jobs=-1)]: Done   6 out of  12 | elapsed: 25.7min remaining: 25.7min
+[Parallel(n_jobs=-1)]: Done   7 out of  12 | elapsed: 209.6min remaining: 149.7min
+[Parallel(n_jobs=-1)]: Done   8 out of  12 | elapsed: 211.9min remaining: 106.0min
+[Parallel(n_jobs=-1)]: Done   9 out of  12 | elapsed: 234.8min remaining: 78.3min
+[Parallel(n_jobs=-1)]: Done  10 out of  12 | elapsed: 319.6min remaining: 63.9min
+[Parallel(n_jobs=-1)]: Done  12 out of  12 | elapsed: 442.5min remaining:    0.0s
+[Parallel(n_jobs=-1)]: Done  12 out of  12 | elapsed: 442.5min finished
+GridSearchCV(cv=3, error_score=nan,
+             estimator=Pipeline(memory=None,
+                                steps=[('standardscaler',
+                                        StandardScaler(copy=True,
+                                                       with_mean=True,
+                                                       with_std=True)),
+                                       ('linearsvc',
+                                        LinearSVC(C=1.0, class_weight=None,
+                                                  dual=True, fit_intercept=True,
+                                                  intercept_scaling=1,
+                                                  loss='squared_hinge',
+                                                  max_iter=10000000,
+                                                  multi_class='ovr',
+                                                  penalty='l2',
+                                                  random_state=18154195,
+                                                  tol=1e-05, verbose=0))],
+                                verbose=False),
+             iid='deprecated', n_jobs=-1,
+             param_grid={'linearsvc__C': [1, 10, 100, 1000]},
+             pre_dispatch='2*n_jobs', refit=True, return_train_score=True,
+             scoring=None, verbose=51)
+Best Estimator: 
+Pipeline(memory=None,
+         steps=[('standardscaler',
+                 StandardScaler(copy=True, with_mean=True, with_std=True)),
+                ('linearsvc',
+                 LinearSVC(C=1, class_weight=None, dual=True,
+                           fit_intercept=True, intercept_scaling=1,
+                           loss='squared_hinge', max_iter=10000000,
+                           multi_class='ovr', penalty='l2',
+                           random_state=18154195, tol=1e-05, verbose=0))],
+         verbose=False)
+
+Best Parameters: 
+{'linearsvc__C': 1}
+
+Best Test Score: 
+0.7523291925465839
+
+Best Training Score: 
+0.810817805383023
+
+All Training Scores: 
+[0.81081781 0.8109472  0.81081781 0.8110766 ]
+
+All Test Scores: 
+[0.75232919 0.75207039 0.75207039 0.7492236 ]
+
+Testing the classifier with testing dataset
+0.7538779731127198
