@@ -6,17 +6,18 @@ Feature Engineering (raw image->greyscale->LBP->histogram)
 Training and Testing Dataset Splitting
 Training with Linear SVM Classifier
 training SVM (and save the resulted model afterwards to a local pickle file)
-Fitting 2 folds for each of 4 candidates, totalling 8 fits
+Fitting 3 folds for each of 3 candidates, totalling 9 fits
 [Parallel(n_jobs=-1)]: Using backend LokyBackend with 4 concurrent workers.
-[Parallel(n_jobs=-1)]: Done   1 tasks      | elapsed:   23.8s
-[Parallel(n_jobs=-1)]: Done   2 out of   8 | elapsed:   23.9s remaining:  1.2min
-[Parallel(n_jobs=-1)]: Done   3 out of   8 | elapsed:  4.3min remaining:  7.2min
-[Parallel(n_jobs=-1)]: Done   4 out of   8 | elapsed:  4.5min remaining:  4.5min
-[Parallel(n_jobs=-1)]: Done   5 out of   8 | elapsed: 17.0min remaining: 10.2min
-[Parallel(n_jobs=-1)]: Done   6 out of   8 | elapsed: 17.0min remaining:  5.7min
-[Parallel(n_jobs=-1)]: Done   8 out of   8 | elapsed: 19.5min remaining:    0.0s
-[Parallel(n_jobs=-1)]: Done   8 out of   8 | elapsed: 19.5min finished
-GridSearchCV(cv=2, error_score=nan,
+[Parallel(n_jobs=-1)]: Done   1 tasks      | elapsed:   42.1s
+[Parallel(n_jobs=-1)]: Done   2 tasks      | elapsed:   42.9s
+[Parallel(n_jobs=-1)]: Done   3 out of   9 | elapsed:   46.9s remaining:  1.6min
+[Parallel(n_jobs=-1)]: Done   4 out of   9 | elapsed:  6.9min remaining:  8.6min
+[Parallel(n_jobs=-1)]: Done   5 out of   9 | elapsed:  7.8min remaining:  6.3min
+[Parallel(n_jobs=-1)]: Done   6 out of   9 | elapsed:  8.8min remaining:  4.4min
+[Parallel(n_jobs=-1)]: Done   7 out of   9 | elapsed: 67.0min remaining: 19.1min
+[Parallel(n_jobs=-1)]: Done   9 out of   9 | elapsed: 73.0min remaining:    0.0s
+[Parallel(n_jobs=-1)]: Done   9 out of   9 | elapsed: 73.0min finished
+GridSearchCV(cv=3, error_score=nan,
              estimator=Pipeline(memory=None,
                                 steps=[('standardscaler',
                                         StandardScaler(copy=True,
@@ -27,42 +28,41 @@ GridSearchCV(cv=2, error_score=nan,
                                                   dual=True, fit_intercept=True,
                                                   intercept_scaling=1,
                                                   loss='squared_hinge',
-                                                  max_iter=1000000,
+                                                  max_iter=10000000,
                                                   multi_class='ovr',
                                                   penalty='l2',
                                                   random_state=18154195,
                                                   tol=1e-05, verbose=0))],
                                 verbose=False),
              iid='deprecated', n_jobs=-1,
-             param_grid={'linearsvc__C': [1, 10, 100, 1000]},
-             pre_dispatch='2*n_jobs', refit=True, return_train_score=True,
-             scoring=None, verbose=51)
+             param_grid={'linearsvc__C': [1, 10, 100]}, pre_dispatch='2*n_jobs',
+             refit=True, return_train_score=True, scoring=None, verbose=51)
 Best Estimator: 
 Pipeline(memory=None,
          steps=[('standardscaler',
                  StandardScaler(copy=True, with_mean=True, with_std=True)),
                 ('linearsvc',
-                 LinearSVC(C=1000, class_weight=None, dual=True,
+                 LinearSVC(C=1, class_weight=None, dual=True,
                            fit_intercept=True, intercept_scaling=1,
-                           loss='squared_hinge', max_iter=1000000,
+                           loss='squared_hinge', max_iter=10000000,
                            multi_class='ovr', penalty='l2',
                            random_state=18154195, tol=1e-05, verbose=0))],
          verbose=False)
 
 Best Parameters: 
-{'linearsvc__C': 1000}
+{'linearsvc__C': 1}
 
 Best Test Score: 
-0.8167701863354038
+0.8240165631469979
 
 Best Training Score: 
-0.8941511387163561
+0.8815993788819876
 
 All Training Scores: 
-[0.89518634 0.89466874 0.89777433 0.89415114]
+[0.88159938 0.88237578 0.88250518]
 
 All Test Scores: 
-[0.81521739 0.81444099 0.8134058  0.81677019]
+[0.82401656 0.82401656 0.82401656]
 
 Testing the classifier with testing dataset
-0.8345398138572906
+0.8335056876938987

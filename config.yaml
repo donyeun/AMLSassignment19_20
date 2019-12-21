@@ -26,7 +26,7 @@ task_a:
       method: default
     svm:
       param_candidates:
-        C: [1, 10, 100, 1000]
+        C: [1, 10, 100]
 
 task_b:
   general:
@@ -49,7 +49,7 @@ task_b:
     haar_cascade_path: models/helper/haarcascades/haarcascade_eye.xml
     svm:
       param_candidates:
-        C: [1, 10, 100, 1000]
+        C: [1, 10, 100]
 
 shape_predictor:
   model_dir: models/helper/shape_predictor_68_face_landmarks.dat
