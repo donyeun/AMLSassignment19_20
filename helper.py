@@ -135,6 +135,47 @@ class DataProcessor:
                 cropped_dataset_dir
             )
 
+    def detect_face_shape_from_dataset(self, filenames, dataset_dir, shape_predictor_dir, shape_point_marks, cropped_dataset_dir):
+        face_detector = dlib.get_frontal_face_detector()
+        shape_predictor = dlib.shape_predictor(shape_predictor_dir)
+        for filename in tqdm(filenames):
+            self.hog_face_shape_detector(
+                dataset_dir,
+                filename,
+                face_detector,
+                shape_predictor,
+                shape_point_marks['start'],
+                shape_point_marks['end'],
+                cropped_dataset_dir
+            )
+
+    def hog_face_shape_detector(self, input_dir, img_filename, face_detector, shape_predictor, shape_point_start, shape_point_end, output_dir):
+        """Detect face shape using HOG
+        """
+        img_filepath = os.path.join(input_dir, img_filename)
+        img = cv2.imread(img_filepath)
+        
+        rects = face_detector(img, 1)
+        for (i, rect) in enumerate(rects):
+            shape = shape_predictor(img, rect)
+            shape = face_utils.shape_to_np(shape)
+            points = shape[shape_point_start:shape_point_end]
+            print("points: ", points)
+            hull = cv2.convexHull(points)
+            overlay = img.copy()
+            contours = cv2.drawContours(overlay, [hull], -1, (180, 42, 220), -1)
+
+            offset = hull.min(axis=0)
+            hull = hull - hull.min(axis=0)
+            max_xy = hull.max(axis=0) + 1
+            w,h = max_xy[0][0], max_xy[0][1]
+            
+            # draw on blank
+            canvas = np.ones((h,w,3), np.uint8)*255
+            cv2.drawContours(canvas, [hull], -1, (255,0,0), -1)
+            canvas = cv2.resize(canvas, dsize=(250,250))
+            cv2.imwrite(os.path.join(output_dir, img_filename), canvas)
+
     def raw_imgs_to_lbp_hists(self, image_dir, image_filenames, lbp_params):
         """Extract LBP histograms from raw images 
         """
