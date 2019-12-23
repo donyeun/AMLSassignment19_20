@@ -6,17 +6,18 @@ Open the image and flatten it
 Training and Testing Dataset Splitting
 Training with Linear SVM Classifier
 training SVM (and save the resulted model afterwards to a local pickle file)
-Fitting 2 folds for each of 4 candidates, totalling 8 fits
+Fitting 3 folds for each of 3 candidates, totalling 9 fits
 [Parallel(n_jobs=-1)]: Using backend LokyBackend with 4 concurrent workers.
-[Parallel(n_jobs=-1)]: Done   1 tasks      | elapsed: 14.2min
-[Parallel(n_jobs=-1)]: Done   2 out of   8 | elapsed: 29.4min remaining: 88.2min
-[Parallel(n_jobs=-1)]: Done   3 out of   8 | elapsed: 34.7min remaining: 57.8min
-[Parallel(n_jobs=-1)]: Done   4 out of   8 | elapsed: 43.4min remaining: 43.4min
-[Parallel(n_jobs=-1)]: Done   5 out of   8 | elapsed: 96.6min remaining: 58.0min
-[Parallel(n_jobs=-1)]: Done   6 out of   8 | elapsed: 108.5min remaining: 36.2min
-[Parallel(n_jobs=-1)]: Done   8 out of   8 | elapsed: 140.5min remaining:    0.0s
-[Parallel(n_jobs=-1)]: Done   8 out of   8 | elapsed: 140.5min finished
-GridSearchCV(cv=2, error_score=nan,
+[Parallel(n_jobs=-1)]: Done   1 tasks      | elapsed: 33.5min
+[Parallel(n_jobs=-1)]: Done   2 tasks      | elapsed: 39.7min
+[Parallel(n_jobs=-1)]: Done   3 out of   9 | elapsed: 52.0min remaining: 103.9min
+[Parallel(n_jobs=-1)]: Done   4 out of   9 | elapsed: 93.2min remaining: 116.4min
+[Parallel(n_jobs=-1)]: Done   5 out of   9 | elapsed: 99.7min remaining: 79.7min
+[Parallel(n_jobs=-1)]: Done   6 out of   9 | elapsed: 145.7min remaining: 72.8min
+[Parallel(n_jobs=-1)]: Done   7 out of   9 | elapsed: 209.8min remaining: 59.9min
+[Parallel(n_jobs=-1)]: Done   9 out of   9 | elapsed: 282.0min remaining:    0.0s
+[Parallel(n_jobs=-1)]: Done   9 out of   9 | elapsed: 282.0min finished
+GridSearchCV(cv=3, error_score=nan,
              estimator=Pipeline(memory=None,
                                 steps=[('standardscaler',
                                         StandardScaler(copy=True,
@@ -34,9 +35,8 @@ GridSearchCV(cv=2, error_score=nan,
                                                   tol=1e-05, verbose=0))],
                                 verbose=False),
              iid='deprecated', n_jobs=-1,
-             param_grid={'linearsvc__C': [1, 10, 100, 1000]},
-             pre_dispatch='2*n_jobs', refit=True, return_train_score=True,
-             scoring=None, verbose=51)
+             param_grid={'linearsvc__C': [1, 10, 100]}, pre_dispatch='2*n_jobs',
+             refit=True, return_train_score=True, scoring=None, verbose=51)
 Best Estimator: 
 Pipeline(memory=None,
          steps=[('standardscaler',
@@ -53,16 +53,16 @@ Best Parameters:
 {'linearsvc__C': 1}
 
 Best Test Score: 
-0.9794952681388012
+0.9817735716789344
 
 Best Training Score: 
-0.9996494917630564
+0.9995618647038205
 
 All Training Scores: 
-[0.99964949 1.         1.         1.        ]
+[0.99956186 1.         1.        ]
 
 All Test Scores: 
-[0.97949527 0.9744129  0.97336137 0.97283561]
+[0.98177357 0.97704171 0.97493866]
 
 Testing the classifier with testing dataset
-0.9880868955851436
+0.98458304134548
