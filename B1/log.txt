@@ -1,0 +1,78 @@
+Feature Engineering
+Load the X and Y label from CSV
+Crop the face shape region from the image
+Determine the final X and Y after cropping
+Open the image and flatten it
+8393
+8393
+Training and Testing Dataset Splitting
+6714
+Training with Linear SVM Classifier
+training SVM (and save the resulted model afterwards to a local pickle file)
+Fitting 5 folds for each of 3 candidates, totalling 15 fits
+[Parallel(n_jobs=-1)]: Using backend LokyBackend with 4 concurrent workers.
+Memmapping (shape=(6714, 34), dtype=<U3) to new file /var/folders/9c/k7_k9bks2cl4kns524ggvpdc0000gn/T/joblib_memmapping_folder_6270_2798005763/6270-4703506960-8feefabcbe6346bc80e5b10404df88bf.pkl
+[Parallel(n_jobs=-1)]: Done   1 tasks      | elapsed:  3.2min
+[Parallel(n_jobs=-1)]: Done   2 tasks      | elapsed:  3.2min
+[Parallel(n_jobs=-1)]: Done   3 tasks      | elapsed:  3.3min
+[Parallel(n_jobs=-1)]: Done   4 tasks      | elapsed:  3.3min
+[Parallel(n_jobs=-1)]: Done   5 tasks      | elapsed:  6.6min
+[Parallel(n_jobs=-1)]: Done   6 tasks      | elapsed: 34.6min
+[Parallel(n_jobs=-1)]: Done   7 tasks      | elapsed: 35.2min
+[Parallel(n_jobs=-1)]: Done   8 tasks      | elapsed: 36.5min
+[Parallel(n_jobs=-1)]: Done   9 out of  15 | elapsed: 39.6min remaining: 26.4min
+[Parallel(n_jobs=-1)]: Done  10 out of  15 | elapsed: 70.3min remaining: 35.2min
+[Parallel(n_jobs=-1)]: Done  11 out of  15 | elapsed: 347.7min remaining: 126.4min
+[Parallel(n_jobs=-1)]: Done  12 out of  15 | elapsed: 350.9min remaining: 87.7min
+[Parallel(n_jobs=-1)]: Done  13 out of  15 | elapsed: 361.6min remaining: 55.6min
+[Parallel(n_jobs=-1)]: Done  15 out of  15 | elapsed: 526.4min remaining:    0.0s
+[Parallel(n_jobs=-1)]: Done  15 out of  15 | elapsed: 526.4min finished
+GridSearchCV(cv=5, error_score=nan,
+             estimator=Pipeline(memory=None,
+                                steps=[('standardscaler',
+                                        StandardScaler(copy=True,
+                                                       with_mean=True,
+                                                       with_std=True)),
+                                       ('linearsvc',
+                                        LinearSVC(C=1.0, class_weight=None,
+                                                  dual=True, fit_intercept=True,
+                                                  intercept_scaling=1,
+                                                  loss='squared_hinge',
+                                                  max_iter=10000000,
+                                                  multi_class='ovr',
+                                                  penalty='l2',
+                                                  random_state=18154195,
+                                                  tol=1e-05, verbose=0))],
+                                verbose=False),
+             iid='deprecated', n_jobs=-1,
+             param_grid={'linearsvc__C': [1, 10, 100]}, pre_dispatch='2*n_jobs',
+             refit=True, return_train_score=True, scoring=None, verbose=51)
+Best Estimator: 
+Pipeline(memory=None,
+         steps=[('standardscaler',
+                 StandardScaler(copy=True, with_mean=True, with_std=True)),
+                ('linearsvc',
+                 LinearSVC(C=100, class_weight=None, dual=True,
+                           fit_intercept=True, intercept_scaling=1,
+                           loss='squared_hinge', max_iter=10000000,
+                           multi_class='ovr', penalty='l2',
+                           random_state=18154195, tol=1e-05, verbose=0))],
+         verbose=False)
+
+Best Parameters: 
+{'linearsvc__C': 100}
+
+Best Test Score: 
+0.6529653677011561
+
+Best Training Score: 
+0.6647677199177681
+
+All Training Scores: 
+[0.66461885 0.66461879 0.66476772]
+
+All Test Scores: 
+[0.65236969 0.65266742 0.65296537]
+
+Testing the classifier with testing dataset
+0.6736152471709351

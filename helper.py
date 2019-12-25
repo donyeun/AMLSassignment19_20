@@ -160,21 +160,10 @@ class DataProcessor:
             shape = shape_predictor(img, rect)
             shape = face_utils.shape_to_np(shape)
             points = shape[shape_point_start:shape_point_end]
-            print("points: ", points)
-            hull = cv2.convexHull(points)
-            overlay = img.copy()
-            contours = cv2.drawContours(overlay, [hull], -1, (180, 42, 220), -1)
-
-            offset = hull.min(axis=0)
-            hull = hull - hull.min(axis=0)
-            max_xy = hull.max(axis=0) + 1
-            w,h = max_xy[0][0], max_xy[0][1]
-            
-            # draw on blank
-            canvas = np.ones((h,w,3), np.uint8)*255
-            cv2.drawContours(canvas, [hull], -1, (255,0,0), -1)
-            canvas = cv2.resize(canvas, dsize=(250,250))
-            cv2.imwrite(os.path.join(output_dir, img_filename), canvas)
+            with open(os.path.join(output_dir, img_filename.strip('.png') + '.csv'), 'w') as txt_file:
+                for x,y in points:
+                    txt_file.write(str(x) + '\t' + str(y) + '\n')
+            txt_file.close()
 
     def raw_imgs_to_lbp_hists(self, image_dir, image_filenames, lbp_params):
         """Extract LBP histograms from raw images 

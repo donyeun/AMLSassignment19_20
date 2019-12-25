@@ -14,7 +14,7 @@ task_a:
       method: default
     svm:
       param_candidates:  
-        C: [1, 10, 100, 1000]    
+        C: [1, 10, 100]    
   a2:
     y_header_name: smiling
     cropped_dataset_dir: Datasets/processed/celeba_cropped_mouth/
@@ -40,7 +40,7 @@ task_b:
     model_path: models/result/b1.pkl
     svm:
       param_candidates:
-        C: [1, 10, 100, 1000]
+        C: [1, 10, 100]
   b2:
     y_header_name: eye_color
     cropped_dataset_dir: Datasets/processed/cartoon_set_cropped_eye/
@@ -59,10 +59,13 @@ shape_predictor:
   right_eye:
     start: 36
     end: 42
+  jaw:
+    start: 0
+    end: 17
 
 train:
   test_proportion: 0.2
   random_state: 18154195
   max_iter: 10000000
   tol: 0.00001
-  k_crossval: 3
+  k_crossval: 5

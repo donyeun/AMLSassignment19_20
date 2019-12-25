@@ -1,5 +1,5 @@
 import os
-
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
@@ -30,8 +30,8 @@ class TaskB1:
             self.cfg['task_b']['general']['x_header_name'],
             self.cfg['task_b']['b1']['y_header_name']
         )
-        X = X[:5]
-        Y = Y[:5]
+        # X = X[:500]
+        # Y = Y[:500]
         # crop the face shape region from the image.
         # the region of interest within some images might not be detected,
         # so the cropped images dataset might be smaller in quantity than the original dataset
@@ -47,20 +47,35 @@ class TaskB1:
 
         # determine the final X and Y after cropping
         print("Determine the final X and Y after cropping")
-        X_final = []
+        X_csv = []
         Y_final = []
         for ori_img_filename in X:
-            if ori_img_filename in os.listdir(cropped_dataset_dir):
-                X_final.append(ori_img_filename)
+            stripped_filename = ori_img_filename.strip('.png')
+            csv_filename = stripped_filename + '.csv'
+            if csv_filename in os.listdir(cropped_dataset_dir):
+                X_csv.append(ori_img_filename)
                 row_num = X.index(ori_img_filename)
                 Y_final.append(Y[row_num])
 
         # open the image and flatten it
         print("Open the image and flatten it")
-        X_final = self.dp.flatten_imgs(
-            cropped_dataset_dir,
-            X_final,
-        )
+        X_final = []
+        for x in X_csv:
+            stripped_filename = x.strip('.png')
+            csv_filename = stripped_filename + '.csv'
+            with open(os.path.join(cropped_dataset_dir, csv_filename), 'r') as txt_file:
+                lines = txt_file.readlines()
+                x_final = []
+                for line in lines:
+                    x_coord, y_coord = line.strip().split('\t')
+                    x_final.append(
+                        [x_coord, y_coord]
+                    )
+            X_final.append(x_final)
+        X_final = np.asarray(X_final)
+        X_final = X_final.reshape(X_final.shape[0], -1)
+        print(len(X_final))
+        print(len(Y_final))
         return X_final, Y_final
 
     def train_test_split(self, X, Y):
