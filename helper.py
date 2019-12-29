@@ -19,17 +19,9 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import learning_curve
 
 class DataAnalyst:
-    """Some notes
-
-    Attributes:
-        name: A string representing the customer's name.
+    """ Data analyst class contains data analysis functions 
     """
 
-    # def __init__():
-    
-    #     """some notes"""
-    #     self.name = name
-    #     self.balance = balance
 
     def check_pixel_size_in_dataset(self, dataset_foldername, filename_list):
         """Notes
@@ -44,7 +36,7 @@ class DataAnalyst:
         return pixel_size_df['img_dimension'].value_counts(), pixel_size_df['img_dimension'].hist()
 
 class DataProcessor:
-    """Notes
+    """ Data processor class contains image preprocessing and general data processing functions.
     """
 
     def determine_X_and_Y_set_from_label_file(self, label_csv_filepath, x_header_name, y_header_name, delimiter='\t'):
@@ -87,7 +79,6 @@ class DataProcessor:
     def hog_subregion_detector(self, input_dir, img_filename, face_detector, shape_predictor, shape_point_start, shape_point_end, output_dir):
         """Detect facial features using HOG
         """  
-        # https://www.pyimagesearch.com/2017/04/10/detect-eyes-nose-lips-jaw-dlib-opencv-python/
         img_filepath = os.path.join(input_dir, img_filename)
         img = cv2.imread(img_filepath)
         
@@ -150,7 +141,7 @@ class DataProcessor:
             )
 
     def hog_face_shape_detector(self, input_dir, img_filename, face_detector, shape_predictor, shape_point_start, shape_point_end, output_dir):
-        """Detect face shape using HOG
+        """To detect face shape using 68 point face shape predictor
         """
         img_filepath = os.path.join(input_dir, img_filename)
         img = cv2.imread(img_filepath)
@@ -203,17 +194,13 @@ class DataProcessor:
         img_filepath = os.path.join(input_dir, img_filename)
         haar_cascade = cv2.CascadeClassifier(haar_cascade_filepath)
         img = cv2.imread(img_filepath)
-    #     $$$# https://stackoverflow.com/questions/20801015/recommended-values-for-opencv-detectmultiscale-parameters
         obj = haar_cascade.detectMultiScale(img, scale_factor, min_neighbors)
-        # reduce_px = 10
         for (x, y, w, h) in obj:
             cropped_img = img[y+int(h/3):y+h-int(h/3), x+int(w/3):x+w-int(w/3)]
             cropped_img = cv2.resize(cropped_img, dsize=(25, 25))
             cv2.imwrite(os.path.join(output_dir, img_filename), cropped_img)
 
     def crop_subregion_from_dataset_with_haar(self, filenames, dataset_dir, task_cfg, cropped_dataset_dir):
-        # face_detector = dlib.get_frontal_face_detector()
-        # shape_predictor = dlib.shape_predictor(shape_predictor_dir)
         for filename in tqdm(filenames):
             self.haar_cascade_cropping(
                 dataset_dir,
@@ -312,23 +299,6 @@ class Classifier:
                 verbose = 51,
                 )
 
-
-            # clf = make_pipeline(
-            #     StandardScaler(),
-            #     GridSearchCV(
-            #         LinearSVC(
-            #             random_state = train_cfg['random_state'],
-            #             tol = train_cfg['tol'],
-            #             max_iter = train_cfg['max_iter'],
-            #         ),
-            #         task_cfg['svm']['param_candidates'],
-            #         cv = train_cfg['k_crossval'],
-            #         refit = True
-            #         # iid = False,
-            #         n_jobs = -1,
-            #         verbose = 51,
-            #     ),
-            # )
             clf.fit(X, Y)
 
             # save all the models resulted to a local pickle

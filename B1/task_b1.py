@@ -30,8 +30,7 @@ class TaskB1:
             self.cfg['task_b']['general']['x_header_name'],
             self.cfg['task_b']['b1']['y_header_name']
         )
-        # X = X[:500]
-        # Y = Y[:500]
+
         # crop the face shape region from the image.
         # the region of interest within some images might not be detected,
         # so the cropped images dataset might be smaller in quantity than the original dataset
@@ -74,8 +73,6 @@ class TaskB1:
             X_final.append(x_final)
         X_final = np.asarray(X_final)
         X_final = X_final.reshape(X_final.shape[0], -1)
-        print(len(X_final))
-        print(len(Y_final))
         return X_final, Y_final
 
     def train_test_split(self, X, Y):
