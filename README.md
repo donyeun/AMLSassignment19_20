@@ -39,14 +39,14 @@ python3 main.py
     │   ├── helper/               # Consists of helper models such as haar-like features and shape predictor
     │   └── result/               # The resulted models from training process
     ├── A1/
-    │   ├── task_a1.py/           # Feature engineering and classification of task A1
-    │   └── log.txt/              # The resulted log file during training and inference process
+    │   ├── task_a1.py            # Feature engineering and classification of task A1
+    │   └── log.txt               # The resulted log file during training and inference process
     ├── A2/
-    │   ├── task_a2.py/           # Feature engineering and classification of task A2
-    │   └── log.txt/              # The resulted log file during training and inference process
+    │   ├── task_a2.py            # Feature engineering and classification of task A2
+    │   └── log.txt               # The resulted log file during training and inference process
     ├── B1/
-    │   ├── task_b1.py/           # Feature engineering and classification of task B1
-    │   └── log.txt/              # The resulted log file during training and inference process
+    │   ├── task_b1.py            # Feature engineering and classification of task B1
+    │   └── log.txt               # The resulted log file during training and inference process
     ├── B2/
-    │   ├── task_b2.py/           # Feature engineering and classification of task B2
-    └── └── log.txt/              # The resulted log file during training and inference process
+    │   ├── task_b2.py            # Feature engineering and classification of task B2
+    └── └── log.txt               # The resulted log file during training and inference process
