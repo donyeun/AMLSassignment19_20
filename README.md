@@ -1,9 +1,9 @@
 # APPLIED MACHINE LEARNING SYSTEM ELEC0132 19/20
-In an attempt to understand the underlying concepts behind machine learning systems, here we presented with four distinct tasks in the area of computer vision.
+In an attempt to understand the underlying concepts behind machine learning systems, here we presented with four tasks in the area of computer vision.
 
-The first two tasks are binary classification problems, covering gender classification (A1) and smile detection (A2). The following two tasks are multiclass classification which covers the issues of face shape (B1) and eye colour (B2) classification.
+The first two tasks are binary classification problems, covering gender classification (A1) and smile detection (A2). The next tasks are multiclass classification which covers the issues of face shape (B1) and eye colour (B2) classification.
 
-Two distinct algorithms are used to detect the region of interest (ROI), namely facial landmark detector and Haar-like features. The same goes with feature extraction, where various signals were utilised across different tasks, such as the raw pixels, coordinate features, and histogram of the local binary pattern (LBP). These different features become an input of an SVM classifier.
+Two distinct algorithms are used to detect the region of interest (ROI), namely facial landmark detector and Haar-like features. The same goes with feature extraction, where various signals are utilised across different tasks, such as the raw pixels, coordinate features, and histogram of the local binary pattern (LBP). These different features become the input of an SVM classifier with linear kernel.
 
 During the inference process, each task gained different performance, ranging from 67\% for B1 to 98\% for task B2.
 
