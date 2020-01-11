@@ -9,7 +9,7 @@ class TaskB2:
         self.dp = dataProcessorObject
         self.cl = classifierObject
 
-    def feature_extraction(self):
+    def feature_extraction(self, test_without_retrain=False):
         """This feature extraction function has several steps:
            1. load the X (image filenames) and Y (class label),
            2. crop the region of interest (eye in this case) from the image,
@@ -22,12 +22,18 @@ class TaskB2:
             Y_final: the list of Y (class label) after feature extraction process
         """
         print('Feature Engineering')
+        if not test_without_retrain:
+            # to accomodate additional test-set
+            dataset_param = self.cfg['task_b']['general']
+        else:
+            dataset_param = self.cfg['task_b']['additional_test_set']
+            self.dp.emptying_folder(self.cfg['task_b']['b2']['cropped_dataset_dir'])
 
         # load the X and Y label from CSV
         print('Load the X and Y label from CSV')
         X, Y = self.dp.determine_X_and_Y_set_from_label_file(
-            self.cfg['task_b']['general']['label_csv_path'],
-            self.cfg['task_b']['general']['x_header_name'],
+            dataset_param['label_csv_path'],
+            dataset_param['x_header_name'],
             self.cfg['task_b']['b2']['y_header_name']
         )
 
@@ -38,7 +44,7 @@ class TaskB2:
         cropped_dataset_dir = self.cfg['task_b']['b2']['cropped_dataset_dir']
         self.dp.crop_subregion_from_dataset_with_haar(
             X,
-            self.cfg['task_b']['general']['dataset_dir'],
+            dataset_param['dataset_dir'],
             self.cfg['task_b']['b2'],
             cropped_dataset_dir
         )
