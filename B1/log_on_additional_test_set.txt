@@ -1,0 +1,64 @@
+Feature Engineering
+Load the X and Y label from CSV
+Crop the face shape region from the image
+Determine the final X and Y after cropping
+Open the image and flatten it
+Training and Testing Dataset Splitting
+Training with Linear SVM Classifier
+local model is found and being used instead of retraining the model
+GridSearchCV(cv=5, error_score=nan,
+             estimator=Pipeline(memory=None,
+                                steps=[('standardscaler',
+                                        StandardScaler(copy=True,
+                                                       with_mean=True,
+                                                       with_std=True)),
+                                       ('linearsvc',
+                                        LinearSVC(C=1.0, class_weight=None,
+                                                  dual=True, fit_intercept=True,
+                                                  intercept_scaling=1,
+                                                  loss='squared_hinge',
+                                                  max_iter=10000000,
+                                                  multi_class='ovr',
+                                                  penalty='l2',
+                                                  random_state=18154195,
+                                                  tol=1e-05, verbose=0))],
+                                verbose=False),
+             iid='deprecated', n_jobs=-1,
+             param_grid={'linearsvc__C': [1, 10, 100]}, pre_dispatch='2*n_jobs',
+             refit=True, return_train_score=True, scoring=None, verbose=51)
+Best Estimator: 
+Pipeline(memory=None,
+         steps=[('standardscaler',
+                 StandardScaler(copy=True, with_mean=True, with_std=True)),
+                ('linearsvc',
+                 LinearSVC(C=100, class_weight=None, dual=True,
+                           fit_intercept=True, intercept_scaling=1,
+                           loss='squared_hinge', max_iter=10000000,
+                           multi_class='ovr', penalty='l2',
+                           random_state=18154195, tol=1e-05, verbose=0))],
+         verbose=False)
+
+Best Parameters: 
+{'linearsvc__C': 100}
+
+Best Test Score: 
+0.6529653677011561
+
+Best Training Score: 
+0.6647677199177681
+
+All Training Scores: 
+[0.66461885 0.66461879 0.66476772]
+
+All Test Scores: 
+[0.65236969 0.65266742 0.65296537]
+
+Testing the classifier with testing dataset
+0.6647677199177681 0.6529653677011561 0.6736152471709351
+Feature Engineering
+Load the X and Y label from CSV
+Crop the face shape region from the image
+Determine the final X and Y after cropping
+Open the image and flatten it
+Testing the classifier with testing dataset
+0.6760900814566363

@@ -1,0 +1,64 @@
+Feature Engineering
+Load the X and Y label from CSV
+Crop the eye region from the image
+Determine the final X and Y after cropping
+Open the image and flatten it
+Training and Testing Dataset Splitting
+Training with Linear SVM Classifier
+local model is found and being used instead of retraining the model
+GridSearchCV(cv=3, error_score=nan,
+             estimator=Pipeline(memory=None,
+                                steps=[('standardscaler',
+                                        StandardScaler(copy=True,
+                                                       with_mean=True,
+                                                       with_std=True)),
+                                       ('linearsvc',
+                                        LinearSVC(C=1.0, class_weight=None,
+                                                  dual=True, fit_intercept=True,
+                                                  intercept_scaling=1,
+                                                  loss='squared_hinge',
+                                                  max_iter=10000000,
+                                                  multi_class='ovr',
+                                                  penalty='l2',
+                                                  random_state=18154195,
+                                                  tol=1e-05, verbose=0))],
+                                verbose=False),
+             iid='deprecated', n_jobs=-1,
+             param_grid={'linearsvc__C': [1, 10, 100]}, pre_dispatch='2*n_jobs',
+             refit=True, return_train_score=True, scoring=None, verbose=51)
+Best Estimator: 
+Pipeline(memory=None,
+         steps=[('standardscaler',
+                 StandardScaler(copy=True, with_mean=True, with_std=True)),
+                ('linearsvc',
+                 LinearSVC(C=1, class_weight=None, dual=True,
+                           fit_intercept=True, intercept_scaling=1,
+                           loss='squared_hinge', max_iter=10000000,
+                           multi_class='ovr', penalty='l2',
+                           random_state=18154195, tol=1e-05, verbose=0))],
+         verbose=False)
+
+Best Parameters: 
+{'linearsvc__C': 1}
+
+Best Test Score: 
+0.9817735716789344
+
+Best Training Score: 
+0.9995618647038205
+
+All Training Scores: 
+[0.99956186 1.         1.        ]
+
+All Test Scores: 
+[0.98177357 0.97704171 0.97493866]
+
+Testing the classifier with testing dataset
+0.9995618647038205 0.9817735716789344 0.98458304134548
+Feature Engineering
+Load the X and Y label from CSV
+Crop the eye region from the image
+Determine the final X and Y after cropping
+Open the image and flatten it
+Testing the classifier with testing dataset
+0.9833906071019473
