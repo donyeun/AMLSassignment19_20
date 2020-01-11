@@ -31,6 +31,7 @@ python3 main.py
     ├── data_analysis.py          # A Python file to learn data distribution within dataset
     ├── config.yaml               # All the configuration variables such as train-test dataset ratio, etc
     ├── requirements.txt          # The required Python libraries
+    ├── report/                   # Latex and pdf report files
     ├── Datasets/
     │   ├── processed/            # The cropped dataset
     │   ├── celeba/               # Original celeba dataset
