@@ -28,6 +28,11 @@ clf, acc_a1_train, acc_a1_val = a1.train(X_train, Y_train)      # training pipel
 acc_a1_test = a1.test(X_test, Y_test, clf)                      # inference
 print(acc_a1_train, acc_a1_val, acc_a1_test)
 
+# to accomodate additional test-set
+X_add_test, Y_add_test = a1.feature_extraction(test_without_retrain=True)
+acc_a1_additional_test = a1.test(X_add_test, Y_add_test, clf)
+print(acc_a1_additional_test)
+
 sys.stdout.close()                                              # close the logging activity
 # ======================================================================================================================
 
@@ -41,6 +46,11 @@ X_train, X_test, Y_train, Y_test = a2.train_test_split(X, Y)    # dataset splitt
 clf, acc_a2_train, acc_a2_val = a2.train(X_train, Y_train)      # training pipeline
 acc_a2_test = a2.test(X_test, Y_test, clf)                      # inference
 print(acc_a2_train, acc_a2_val, acc_a2_test)
+
+# to accomodate additional test-set
+X_add_test, Y_add_test = a2.feature_extraction(test_without_retrain=True)
+acc_a2_additional_test = a2.test(X_add_test, Y_add_test, clf)
+print(acc_a2_additional_test)
 
 sys.stdout.close()                                              # close the logging activity
 # ======================================================================================================================
@@ -56,6 +66,11 @@ clf, acc_b1_train, acc_b1_val = b1.train(X_train, Y_train)      # training pipel
 acc_b1_test = b1.test(X_test, Y_test, clf)                      # inference
 print(acc_b1_train, acc_b1_val, acc_b1_test)
 
+# to accomodate additional test-set
+X_add_test, Y_add_test = b1.feature_extraction(test_without_retrain=True)
+acc_b1_additional_test = b1.test(X_add_test, Y_add_test, clf)
+print(acc_b1_additional_test)
+
 sys.stdout.close()                                              # close the logging activity
 # ======================================================================================================================
 
@@ -69,6 +84,11 @@ X_train, X_test, Y_train, Y_test = b2.train_test_split(X, Y)    # dataset splitt
 clf, acc_b2_train, acc_b2_val = b2.train(X_train, Y_train)      # training pipeline
 acc_b2_test = b2.test(X_test, Y_test, clf)                      # inference
 print(acc_b2_train, acc_b2_val, acc_b2_test)
+
+# to accomodate additional test-set
+X_add_test, Y_add_test = b2.feature_extraction(test_without_retrain=True)
+acc_b2_additional_test = b2.test(X_add_test, Y_add_test, clf)
+print(acc_b2_additional_test)
 
 sys.stdout.close()                                              # close the logging activity
 # ======================================================================================================================

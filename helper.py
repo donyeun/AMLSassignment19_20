@@ -64,7 +64,8 @@ class DataProcessor:
                 y:y+h,
                 x:x+w,
             ]
-            cv2.imwrite(os.path.join(output_dir, img_filename), cropped_img)
+            if cropped_img.size != 0:
+                cv2.imwrite(os.path.join(output_dir, img_filename), cropped_img)
 
     def flatten_imgs(self, input_dir, X):
         """Take all the images within input_dir and flatten it
@@ -210,6 +211,10 @@ class DataProcessor:
                 3,
                 cropped_dataset_dir
             )
+
+    def emptying_folder(self, folder_name):
+        for file in os.scandir(folder_name):
+            os.unlink(file.path)
 
 class Classifier:
     def plot_learning_curve(self, estimator, title, X, y, axes=None, ylim=None, cv=None,
