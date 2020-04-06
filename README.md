@@ -18,7 +18,7 @@ pip3 install -r requirements.txt
 python3 main.py
 ```
 
-3. After step 2 is complete. You can the following resulted files:
+3. After step 2 is complete. You can see the following resulted files:
     1. model file (the models generated during training process) within `\models\results\<task_number>.pkl`<br>
        For example: [/models/result/a1.pkl](https://github.com/donyeun/AMLSassignment19_20/blob/master/models/result/a1.pkl)
     2. log txt file within `/<task_number>/log.txt` <br>
@@ -27,7 +27,7 @@ python3 main.py
 ## Structure of repository
     .
     ├── main.py                   # The main Python file that will call helper.py and other Python files
-    ├── helper.py                 # Consists of classifier, image preprocessing and data analysis class
+    ├── helper.py                 # Consists of classifier, image preprocessing and data analysis classes
     ├── data_analysis.py          # A Python file to learn data distribution within dataset
     ├── config.yaml               # All the configuration variables such as train-test dataset ratio, etc
     ├── requirements.txt          # The required Python libraries
